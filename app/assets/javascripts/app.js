@@ -16,6 +16,7 @@ app = new Vue({
   methods: {
     submit_search: function() {
       vt = this;
+      this.selected_room = '';
 
       axios({
         method: 'post',
@@ -45,6 +46,10 @@ app = new Vue({
 
     setup_confirmation: function(room) {
       this.selected_room = room;
+    },
+
+    book_room: function() {
+      this.room_booked = true;
     }
   }
 });

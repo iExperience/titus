@@ -48,7 +48,7 @@
       <div class="mm-row">
         <!-- Form -->
         <div class="mm-col mm-col-5">
-          <form class="mm-form" v-on:submit.prevent>
+          <form class="mm-form" v-on:submit.prevent v-if="!selected_room">
             <div class="mm-card">
               <div class="mm-card__main">
                 <div class="mm-card__header">
@@ -62,56 +62,56 @@
                   </div>
                   <div class="vertical-space"></div>
 
-                    <div class="mm-row">
-                      <div class="mm-field mm-field-6">
-                        <label class="mm-field__label" for="room-size">Size (People)</label>
-                        <select name="room_size" id="room-size" class="mm-select" data-room-size>
-                          <option value="1">1</option>
-                          <option value="2">2</option>
-                          <option value="3">3</option>
-                          <option value="4">4</option>
-                          <option value="5">5</option>
-                          <option value="6">6</option>
-                        </select>
-                      </div>
-
-                      <div class="mm-field mm-field-6 vertical-space">
-                        <label class="mm-field__label" for="view">View</label>
-                        <select name="view" id="" class="mm-select" data-room-view>
-                          <option value="sunset">Sunset</option>
-                          <option value="sunrise">Sunrise</option>
-                        </select>
-                      </div>
-
-                      <div class="mm-field mm-field-3">
-                        <label class="mm-field__label" for="last-name">Tv</label>
-                          <input name="tv" id="tv" class="" type="checkbox" v-model="tv">
-                        </label>
-                      </div>
-
-                      <div class="mm-field mm-field-3">
-                        <label class="mm-field__label" for="sauna">Sauna</label>
-                          <input name="sauna" id="sauna" class="" type="checkbox">
-                        </label>
-                      </div>
-
-                      <div class="mm-field mm-field-3">
-                        <label class="mm-field__label" for="parking">Parking</label>
-                          <input name="parking" id="parking" class="" type="checkbox">
-                        </label>
-                      </div>
-
-                      <div class="mm-field mm-field-3">
-                        <label class="mm-field__label" for="cleaning">Cleaning</label>
-                          <input name="cleaning" id="cleaning" class="" type="checkbox">
-                        </label>
-                      </div>
+                  <div class="mm-row">
+                    <div class="mm-field mm-field-6">
+                      <label class="mm-field__label" for="room-size">Size (People)</label>
+                      <select name="room_size" id="room-size" class="mm-select" data-room-size>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                      </select>
                     </div>
+
+                    <div class="mm-field mm-field-6 vertical-space">
+                      <label class="mm-field__label" for="view">View</label>
+                      <select name="view" id="" class="mm-select" data-room-view>
+                        <option value="sunset">Sunset</option>
+                        <option value="sunrise">Sunrise</option>
+                      </select>
+                    </div>
+
+                    <div class="mm-field mm-field-3">
+                      <label class="mm-field__label" for="last-name">Tv</label>
+                        <input name="tv" id="tv" class="" type="checkbox" v-model="tv">
+                      </label>
+                    </div>
+
+                    <div class="mm-field mm-field-3">
+                      <label class="mm-field__label" for="sauna">Sauna</label>
+                        <input name="sauna" id="sauna" class="" type="checkbox">
+                      </label>
+                    </div>
+
+                    <div class="mm-field mm-field-3">
+                      <label class="mm-field__label" for="parking">Parking</label>
+                        <input name="parking" id="parking" class="" type="checkbox">
+                      </label>
+                    </div>
+
+                    <div class="mm-field mm-field-3">
+                      <label class="mm-field__label" for="cleaning">Cleaning</label>
+                        <input name="cleaning" id="cleaning" class="" type="checkbox">
+                      </label>
+                    </div>
+                  </div>
 
                 </div>
                 <div class="mm-card__footer">
-                  <input type="submit" class="mm-button mm-button--fluid mm-button--primary mm-button--outline"
-                                       value="Submit Criteria"
+                  <input type="submit" class="mm-button mm-button--fluid mm-button--primary mm-button--outline mm-button--round"
+                                       value="Search Room"
                                        v-on:click="submit_search" />
                 </div>
               </div>
@@ -123,7 +123,7 @@
         <div class="mm-col mm-col-4">
           <div class="page-header">Available Rooms</div>
           <p v-if="available_rooms.length === 0">No rooms match current seach criteria</p>
-          <div class="available-rooms" v-for="room in available_rooms">
+          <div class="available-rooms" v-if="!selected_room" v-for="room in available_rooms">
 
             <div class="mm-segment">
               <div class="mm-segment__main">
@@ -132,14 +132,15 @@
               </div>
             </div>
           </div>
+          <p v-if="room_selected">Room has been selected</p>
         </div>
 
         <!--  Confirm -->
         <div class="mm-col mm-col-3">
         <div class="page-header">Confirm Room Selection</div>
-          <p v-if="selected_room == ''">No room selected</p>
+          <p v-if="!selected_room">No room selected</p>
 
-          <div class="mm-card" v-if="selected_room">
+          <div class="mm-card" v-if="selected_room && !room_booked">
             <div class="mm-card__main">
               <div class="mm-card__header">
                 Room Number: {{ selected_room.name }}
@@ -149,7 +150,17 @@
                 Cape Town CBD.
               </div>
               <div class="mm-card__footer">
-                <button class="mm-button mm-button--primary mm-button--fluid">Book Room!</button>
+                <button class="mm-button mm-button--primary mm-button--fluid mm-button--round"
+                        v-on:click="book_room">Book Room!</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="mm-alert mm-alert--success mm-alert--round mm-alert-12" v-if="room_booked">
+            <div class="mm-alert__main">
+              <i class="mm-alert__icon ion-checkmark"></i>
+              <div class="mm-alert__content">
+                Room {{ selected_room .name }} has been booked!
               </div>
             </div>
           </div>
