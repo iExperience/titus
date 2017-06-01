@@ -4,7 +4,7 @@ class CreateTableRooms < ActiveRecord::Migration[5.0]
       t.string :name
       t.integer :size
       t.string :view
-      t.text :amenities, array: true, default: []
+      t.text :amenities, array: true, default: [],
 
       t.timestamps
     end

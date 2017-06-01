@@ -1,4 +1,6 @@
 class Room < ApplicationRecord
+  validates :name, :size, :view, presence: true
+
   def self.search(size: nil, view: nil, amenities: [])
     result = Room.where(nil)
     result = result.where('rooms.view = ?', view) if view

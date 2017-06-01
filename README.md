@@ -1,24 +1,11 @@
-# README
+# Assumptions
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+* Student is logged in
+* Student has already paid
 
-Things you may want to cover:
 
-* Ruby version
+## Approach
 
-* System dependencies
+* Use api calls for search to get data and use frontend framework (VueJS) to do the work
+* Use normal rails form building for the rest.
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...

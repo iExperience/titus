@@ -1,0 +1,160 @@
+<div class="mm-offcanvas">
+  <div class="mm-offcanvas__header">
+    Menu
+    <span class="mm-offcavas__close" data-close-offcanvas>
+      <i class="ion-close"></i>
+    </span>
+  </div>
+  <ul class="mm-offcanvas__menu" data-offcanvas-menu>
+    <li class="mm-offcanvas__menu-item"><a href="#">My Account</a></li>
+    <li class="mm-offcanvas__menu-item"><a href="#">Settings</a></li>
+    <li class="mm-offcanvas__menu-item mm-offcanvas__menu-item--active"><a href="#">Contact</a></li>
+  </ul>
+</div>
+<div id="app" class="mm-main">
+  <div class="mm-admin-topbar">
+    <div class="mm-topbar__logo">
+      <a href="demo.html">
+        <img src="https://pbs.twimg.com/profile_images/467248542537379840/AgqCzATA.png" alt="">
+      </a>
+    </div>
+    <div class="mm-admin-topbar__title">
+      Room Selection
+    </div>
+    <div class="mm-admin-topbar__user" data-dropdown-trigger data-dropdown="user-menu">
+      <figure>
+        <img src="https://static.comicvine.com/uploads/square_small/2/27836/637573-luke_skywalker.jpg" alt="">
+      </figure>
+      <div class="details">
+        <span>Luke</span>
+        <span class="mm-topbar__user-name--cursive">Skywalker</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="mm-content">
+    <div class="mm-container">
+      <!-- Breadcrumb -->
+      <div class="mm-row">
+        <div class="mm-col mm-col-12">
+          <ul class="mm-breadcrumb">
+            <li class="mm-breadcrumb__item"><a href="#">Home</a></li>
+            <li class="mm-breadcrumb__item mm-breadcrumb__item--active">Room Selection</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Sections -->
+      <div class="mm-row">
+        <!-- Form -->
+        <div class="mm-col mm-col-5">
+          <form class="mm-form" v-on:submit.prevent>
+            <div class="mm-card">
+              <div class="mm-card__main">
+                <div class="mm-card__header">
+                  Room Criteria
+                </div>
+                <div class="mm-card__content">
+                  <div class="mm-message mm-message--info">
+                    <div class="mm-message__text">
+                      Select options to filter available rooms
+                    </div>
+                  </div>
+                  <div class="vertical-space"></div>
+
+                    <div class="mm-row">
+                      <div class="mm-field mm-field-6">
+                        <label class="mm-field__label" for="room-size">Size (People)</label>
+                        <select name="room_size" id="room-size" class="mm-select" data-room-size>
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
+                          <option value="6">6</option>
+                        </select>
+                      </div>
+
+                      <div class="mm-field mm-field-6 vertical-space">
+                        <label class="mm-field__label" for="view">View</label>
+                        <select name="view" id="" class="mm-select" data-room-view>
+                          <option value="sunset">Sunset</option>
+                          <option value="sunrise">Sunrise</option>
+                        </select>
+                      </div>
+
+                      <div class="mm-field mm-field-3">
+                        <label class="mm-field__label" for="last-name">Tv</label>
+                          <input name="tv" id="tv" class="" type="checkbox" v-model="tv">
+                        </label>
+                      </div>
+
+                      <div class="mm-field mm-field-3">
+                        <label class="mm-field__label" for="sauna">Sauna</label>
+                          <input name="sauna" id="sauna" class="" type="checkbox">
+                        </label>
+                      </div>
+
+                      <div class="mm-field mm-field-3">
+                        <label class="mm-field__label" for="parking">Parking</label>
+                          <input name="parking" id="parking" class="" type="checkbox">
+                        </label>
+                      </div>
+
+                      <div class="mm-field mm-field-3">
+                        <label class="mm-field__label" for="cleaning">Cleaning</label>
+                          <input name="cleaning" id="cleaning" class="" type="checkbox">
+                        </label>
+                      </div>
+                    </div>
+
+                </div>
+                <div class="mm-card__footer">
+                  <input type="submit" class="mm-button mm-button--fluid mm-button--primary mm-button--outline"
+                                       value="Submit Criteria"
+                                       v-on:click="submit_search" />
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <!--  Rooms Available -->
+        <div class="mm-col mm-col-4">
+          <div class="page-header">Available Rooms</div>
+          <p v-if="available_rooms.length === 0">No rooms match current seach criteria</p>
+          <div class="available-rooms" v-for="room in available_rooms">
+
+            <div class="mm-segment">
+              <div class="mm-segment__main">
+                <input type="radio" name="room_choice" v-bind:value="room.name" v-on:change="setup_confirmation(room)">
+                {{ room.name }} - Cape Town CBD
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!--  Confirm -->
+        <div class="mm-col mm-col-3">
+        <div class="page-header">Confirm Room Selection</div>
+          <p v-if="selected_room == ''">No room selected</p>
+
+          <div class="mm-card" v-if="selected_room">
+            <div class="mm-card__main">
+              <div class="mm-card__header">
+                Room Number: {{ selected_room.name }}
+              </div>
+              <div class="mm-card__content">
+                You have chosen room {{ selected_room.name }}, which is located in
+                Cape Town CBD.
+              </div>
+              <div class="mm-card__footer">
+                <button class="mm-button mm-button--primary mm-button--fluid">Book Room!</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe Room, type: :model do
   describe "#search" do
     it 'returns rooms by size' do
-      room1 = Room.create(name: '1A', size: 1)
-      room2 = Room.create(name: '2A', size: 2)
+      room1 = Room.create(name: '1A', size: 1, view: 'sunrise')
+      room2 = Room.create(name: '2A', size: 2, view: 'sunrise')
 
       expect(Room.search(size: 1)).to eq([room1])
     end
